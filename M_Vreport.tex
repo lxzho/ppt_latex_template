@@ -1,0 +1,612 @@
+﻿\documentclass{beamer}
+
+\usepackage{ctex}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{verbatim}
+
+\mode<presentation>{
+% The Beamer class comes with a number of default slide themes
+% which change the colors and layouts of slides. Below this is a list
+% of all the themes, uncomment each in turn to see what they look like.
+
+%\usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Torino}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+%\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+% As well as themes, the Beamer class has a number of color themes
+% for any slide theme. Uncomment each of these in turn to see how it
+% changes the colors of your current slide theme.
+
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+%\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+\title[M-V]{一种新的线性非线性反演算法及其在2017年$M_w$7.3伊朗地震滑动分布反演中的应用}
+%\author{汇报人：周力璇 \newline 指导老师：许才军 \quad 教授}
+\author{汇报人：周力璇}
+\institute[武汉大学]
+{
+武汉大学 \\
+\medskip
+\textit{schevan@163.com}
+}
+
+\date{\today}
+
+\begin{document}
+
+%\titlegraphic{\includegraphics[height=0.1\textwidth]{logo-polito.pdf}{\hspace{250pt}}{\vspace{100pt}}}
+\titlegraphic{\includegraphics[height=0.18\textwidth]{whulogo.eps}}
+\begin{frame}
+\titlepage
+\end{frame}
+
+%\logo{\includegraphics[height=0.2\textwidth,angle=0]{whu.eps}{\hspace{-20pt}}{\vspace{-20pt}}}
+
+\begin{frame}
+\frametitle{目录}
+\tableofcontents
+\end{frame}
+
+\section{介绍}
+%-----------------------------------------------------
+\begin{frame}
+\frametitle{问题}
+
+\begin{figure}
+  \centering
+  % Requires \usepackage{graphicx}
+  \includegraphics[scale=0.45]{okada_figure.png}\\
+  \caption{Parameters}\label{fig_okada}
+\end{figure}
+
+\end{frame}
+
+%-----------------------------------------------------
+\begin{frame}
+\frametitle{两步法}
+
+\begin{columns}
+
+\column{0.5\textwidth}
+
+\begin{minipage}[c][0.35\textheight][c]{\linewidth}
+\begin{block}{第一步：非线性反演}
+格网搜索法、拟牛顿法、模拟退火法、遗传算法、邻域法和粒子群算法等
+\end{block}
+\end{minipage}
+
+\begin{minipage}[c][0.35\textheight][c]{\linewidth}
+\begin{block}{第二步：线性反演}
+L曲线法、ABIC法、交叉验证法、VCE法和$_j\Re_i$等
+\end{block}
+\end{minipage}
+
+
+\end{columns}
+
+\end{frame}
+%-----------------------------------------------------
+\begin{frame}
+\frametitle{贝叶斯反演方法}
+\begin{enumerate}
+  \item 全贝叶斯反演方法(Fukuda,2008)
+  \item 混合线性非线性反演方法(简称F-J方法)(Fukuda,2010)
+  \item CATMIP(Minson,2013)
+\end{enumerate}
+\end{frame}
+%-----------------------------------------------------
+\begin{frame}
+\frametitle{F-J方法和M-V方法}
+\begin{table}
+  \caption{Parameters solved by Different Methods}
+  \label{Tab:Relation_FJ_MV}
+  \scalebox{1}{
+  \begin{tabular}{llll}
+  \hline\noalign{\smallskip}
+  Method & Monte Carlo Sampling & Least Squares & VCE method \\
+  \noalign{\smallskip}\hline\noalign{\smallskip}
+  F-J & $\textbf{m},\boldsymbol\sigma,\alpha^2$ & $\textbf{s}$  & - \\
+  \textcolor[rgb]{0.00,1.00,0.00}{M-V} & $\textbf{m}$ & - & $\textbf{s},\boldsymbol\sigma,\alpha^2$ \\
+  \noalign{\smallskip}\hline
+  \end{tabular}
+  }
+\end{table}
+\end{frame}
+
+\section{模拟算例}
+%-----------------------------------------------------
+\begin{frame}
+\frametitle{反演结果}
+\begin{columns}
+
+\column{0.5\textwidth}
+\begin{minipage}[c][0.4\textheight][c]{\linewidth}
+\begin{figure}
+  \centering
+  % Requires \usepackage{graphicx}
+  \includegraphics[width=0.8\linewidth]{fig_station_syn.png}\\
+  \caption{Displacements}\label{fig_station_syn}
+\end{figure}
+\end{minipage}
+
+\column{0.5\textwidth}
+\begin{minipage}[c][0.4\textheight][c]{\linewidth}
+\begin{figure}
+  \centering
+  % Requires \usepackage{graphicx}
+  \includegraphics[width=0.8\linewidth]{slip_distribution_syn.png}\\
+  \caption{Slip distribution}\label{Fig:slip_distribution_syn}
+\end{figure}
+\end{minipage}
+
+\end{columns}
+
+\end{frame}
+
+%-----------------------------------------------------
+\begin{frame}
+\frametitle{反演过程}
+\begin{columns}
+
+\column{0.5\textwidth}
+\begin{minipage}[c][0.4\textheight][c]{\linewidth}
+\begin{figure}
+  % Requires \usepackage{graphicx}
+  \includegraphics[width=0.6\linewidth]{plot_sample_syn.png}\\
+  \caption{Samplings}\label{Fig:sample_syn}
+\end{figure}
+\end{minipage}
+
+\column{0.5\textwidth}
+\begin{minipage}[c][0.4\textheight][c]{\linewidth}
+\begin{table}
+  \caption{Non-linear Parameters}
+  \label{Tab:Syn_Parameters}
+  \scalebox{0.45}{
+  \begin{tabular}{llllll}
+  \hline\noalign{\smallskip}
+  Parameter & True Value & Boundary & Initial Value & MaxPV & CI \\
+  \noalign{\smallskip}\hline\noalign{\smallskip}
+  $m_e$ /km & 0 & [-40,40] & 4 & -0.9 & [-26.91,21.89] \\
+  $m_n$ /km & 0 & [-30,30] & 4 & -5.5 & [-27.70,7.72] \\
+  $m_u$ /km & 1 & (0,15] & 5 & 3.8 & [0.44,6.07] \\
+  $m_s$ /$\circ$& 70 & (0,90) & 60 & 70.5 & [55.27,87.87] \\
+  $m_d$ /$\circ$& 15 & (0,90) & 5 & 14.9 & [8.66,18.54] \\
+  \noalign{\smallskip}\hline
+  \end{tabular}
+  }
+\end{table}
+\end{minipage}
+
+\begin{minipage}[c][0.4\textheight][c]{\linewidth}
+\begin{figure}
+  % Requires \usepackage{graphicx}
+  \includegraphics[width=0.7\linewidth]{plot_SigmaMw_syn.png}\\
+  \caption{Relative Weights, $M_w$ and Rake}\label{Fig:plot_SigmaMw_syn}
+\end{figure}
+\end{minipage}
+
+\end{columns}
+
+\end{frame}
+
+%-----------------------------------------------------
+\begin{frame}
+\frametitle{反演结果}
+\begin{columns}
+
+\column{0.5\textwidth}
+\begin{minipage}[c][0.4\textheight][c]{\linewidth}
+\begin{figure}
+  \centering
+  % Requires \usepackage{graphicx}
+  \includegraphics[width=0.8\linewidth]{fig_station_syn.png}\\
+  \caption{Displacements}\label{fig_station_syn}
+\end{figure}
+\end{minipage}
+
+\column{0.5\textwidth}
+\begin{minipage}[c][0.4\textheight][c]{\linewidth}
+\begin{figure}
+  \centering
+  % Requires \usepackage{graphicx}
+  \includegraphics[width=0.8\linewidth]{slip_distribution_syn.png}\\
+  \caption{Slip distribution}\label{Fig:slip_distribution_syn}
+\end{figure}
+\end{minipage}
+
+\end{columns}
+
+\end{frame}
+
+\section{2017年$M_w$7.3伊朗地震}
+%-----------------------------------------------------
+\begin{frame}
+\frametitle{构造背景}
+\begin{figure}
+  \centering
+  % Requires \usepackage{graphicx}
+  \includegraphics[width=0.5\linewidth]{fig_tectonic_iran.png}\\
+  \caption{Tectonic setting}\label{fig_tectonic_iran}
+\end{figure}
+\end{frame}
+%-----------------------------------------------------
+\begin{frame}
+\frametitle{反演结果}
+\begin{columns}
+
+\column{0.5\textwidth}
+\begin{minipage}[c][0.4\textheight][c]{\linewidth}
+\begin{figure}
+  \centering
+  % Requires \usepackage{graphicx}
+  \includegraphics[width=0.8\linewidth]{fig_station_Iran.png}\\
+  \caption{Displacements}\label{fig_station_Iran}
+\end{figure}
+\end{minipage}
+
+\column{0.5\textwidth}
+\begin{minipage}[c][0.4\textheight][c]{\linewidth}
+\begin{figure}
+  \centering
+  % Requires \usepackage{graphicx}
+  \includegraphics[width=0.8\linewidth]{slip_distribution_Iran.png}\\
+  \caption{Slip distribution}\label{Fig:slip_distribution_Iran}
+\end{figure}
+\end{minipage}
+
+\end{columns}
+
+\end{frame}
+
+%-----------------------------------------------------
+\begin{frame}
+\frametitle{反演过程}
+\begin{columns}
+
+\column{0.5\textwidth}
+\begin{minipage}[c][0.4\textheight][c]{\linewidth}
+\begin{figure}
+  % Requires \usepackage{graphicx}
+  \includegraphics[width=0.6\linewidth]{plot_sample_Iran.png}\\
+  \caption{Samplings}\label{Fig:sample_Iran}
+\end{figure}
+\end{minipage}
+
+\column{0.5\textwidth}
+\begin{minipage}[c][0.4\textheight][c]{\linewidth}
+\begin{table}
+  \caption{Non-linear Parameters}
+  \label{Tab:Iran_Parameters}
+  \scalebox{0.5}{
+  \begin{tabular}{lllll}
+  \hline\noalign{\smallskip}
+  Parameter & Boundary & Initial Value & MaxPV & CI \\
+  \noalign{\smallskip}\hline\noalign{\smallskip}
+  $m_e$ /km &  [480,680] & 550 & 539.42 & [528.20,554.00] \\
+  $m_n$ /km &  [3760,3960] & 3800 & 3776.55 & [3770.00,3807.00] \\
+  $m_u$ /km &  (0,15] & 1 & 0.20 & [0.01,3.12] \\
+  $m_s$ /$\circ$&  (270,360) & 351 & 345.00 & [335.70,358.20] \\
+  $m_d$ /$\circ$&  (0,90) & 16 & 13.65 & [10.71,17.61] \\
+  \noalign{\smallskip}\hline
+  \end{tabular}
+  }
+\end{table}
+\end{minipage}
+
+\begin{minipage}[c][0.4\textheight][c]{\linewidth}
+\begin{figure}
+  % Requires \usepackage{graphicx}
+  \includegraphics[width=0.7\linewidth]{plot_SigmaMw_Iran.png}\\
+  \caption{Relative Weights, $M_w$ and Rake}\label{Fig:plot_SigmaMw_Iran}
+\end{figure}
+\end{minipage}
+
+\end{columns}
+
+\end{frame}
+
+%-----------------------------------------------------
+\begin{frame}
+\frametitle{比较}
+\begin{table}[H]
+  \caption{Representative Focal mechanisms for the 2017 $M_w$7.3 Iran Earthquake}
+  \label{Tab2:mech_iran}
+  \scalebox{0.5}{
+  \begin{tabular}{llllllllll}
+  \hline\noalign{\smallskip}
+    & Longitude & Latitude & Depth & Length & Width & Strike &Dip & Rake & Magnitude   \\
+   & ($^\circ$) & (km) & (km) &(km) & ($^\circ$) &($^\circ$) & ($^\circ$) & ($^\circ$) & ($M_w$) \\
+  \noalign{\smallskip}\hline\noalign{\smallskip}
+  USGS  & 45.96 & 34.91 & 19.0 & 80 & 50 & 351 & 16 & 137 & 7.3  \\
+  GCMT$^1$ & 45.84 & 34.83 & 17.9 & - & - & 351 & 11 & 140 & 7.4  \\
+  Feng et al.(2018) & 45.87$^a$ & 34.73$^a$ & 14.5$^a$ & 100 & 80 & 353.5 & 14.5 & 135.6 & 7.3  \\
+  Barnhart et al.(2018)& 45.87$^a$ & 34.65$^a$ & 15$^a$ & - & - & 351 & 15 & 128 & 7.3  \\
+  Huang et al.(2019) &- & - & 14.5$^a$ & 70 & 35 & 355.5 & 17.5 & 135.5 & 7.2 \\
+  Nissen et al.(2019) &- & - &- & - & - & 353.7 & 14.3 & 136.8 & 7.25  \\
+  Gombert et al.(2019) &- & - & -&84 &56 & 351 & 14 & 131.5 & 7.3  \\
+  \textcolor[rgb]{0.00,1.00,0.00}{This study}  & 45.89$^a$ & 34.71$^a$ &13.67$^a$ & 90 & 70 & 345.00$^b$ & 13.65$^b$ & 138.80$^b$ & 7.29$^b$ \\
+  \noalign{\smallskip}\hline
+  \end{tabular}
+  }
+  \\
+  \footnotesize{$^1$ Global Centroid Moment Tensor}
+  \quad \footnotesize{$^a$ The Center of the fault patch which has the largest slip magnitude}
+  \quad \footnotesize{$^b$ The values located at the maximum probability}
+\end{table}
+\end{frame}
+\section{讨论和结果}
+%-----------------------------------------------------
+\begin{frame}
+\frametitle{2017年$M_w$7.3伊朗地震反演结果分析}
+\begin{columns}
+
+\column{0.5\textwidth}
+\begin{minipage}[c][0.8\textheight][c]{\linewidth}
+\begin{figure}
+  \centering
+  % Requires \usepackage{graphicx}
+  \includegraphics[width=1\linewidth]{fig_tectonic_iran.png}\\
+  \caption{Tectonic setting}\label{fig_tectonic_iran}
+\end{figure}
+\end{minipage}
+
+\column{0.5\textwidth}
+\begin{minipage}[c][0.4\textheight][c]{\linewidth}
+\begin{figure}
+  \centering
+  % Requires \usepackage{graphicx}
+  \includegraphics[width=0.8\linewidth]{slip_distribution_Iran.png}\\
+  \caption{Slip distribution}\label{Fig:slip_distribution_Iran}
+\end{figure}
+\end{minipage}
+
+\end{columns}
+
+\end{frame}
+
+%-----------------------------------------------------
+\begin{frame}
+\frametitle{步长}
+\begin{columns}
+
+\column{0.5\textwidth}
+\begin{minipage}[c][0.4\textheight][c]{\linewidth}
+\begin{figure}
+  % Requires \usepackage{graphicx}
+  \includegraphics[width=0.6\linewidth]{plot_sample_syn.png}\\
+  \caption{Synthetic earthquake}\label{Fig:sample_syn}
+\end{figure}
+\end{minipage}
+
+\column{0.5\textwidth}
+\begin{minipage}[c][0.4\textheight][c]{\linewidth}
+\begin{figure}
+  % Requires \usepackage{graphicx}
+  \includegraphics[width=0.6\linewidth]{plot_sample_Iran.png}\\
+  \caption{2017年$M_w$7.3伊朗地震}\label{Fig:plot_sample_Iran}
+\end{figure}
+\end{minipage}
+
+\end{columns}
+
+\end{frame}
+
+%-----------------------------------------------------
+\begin{frame}
+\frametitle{先验信息}
+\begin{columns}
+
+\column{0.5\textwidth}
+\begin{minipage}[c][0.4\textheight][c]{\linewidth}
+\begin{table}
+  \caption{Synthetic earthquake}
+  \label{Tab:Syn_Parameters}
+  \scalebox{0.45}{
+  \begin{tabular}{llllll}
+  \hline\noalign{\smallskip}
+  Parameter & True Value & \textcolor[rgb]{1.00,0.00,0.00}{Boundary} & Initial Value & MaxPV & CI \\
+  \noalign{\smallskip}\hline\noalign{\smallskip}
+  $m_e$ /km & 0 & \textcolor[rgb]{1.00,0.00,0.00}{[-40,40]} & 4 & -0.9 & [-26.91,21.89] \\
+  $m_n$ /km & 0 & \textcolor[rgb]{1.00,0.00,0.00}{[-30,30]} & 4 & -5.5 & [-27.70,7.72] \\
+  $m_u$ /km & 1 & \textcolor[rgb]{1.00,0.00,0.00}{(0,15]} & 5 & 3.8 & [0.44,6.07] \\
+  $m_s$ /$\circ$& 70 & \textcolor[rgb]{1.00,0.00,0.00}{(0,90)} & 60 & 70.5 & [55.27,87.87] \\
+  $m_d$ /$\circ$& 15 & \textcolor[rgb]{1.00,0.00,0.00}{(0,90)} & 5 & 14.9 & [8.66,18.54] \\
+  \noalign{\smallskip}\hline
+  \end{tabular}
+  }
+\end{table}
+\end{minipage}
+
+\column{0.5\textwidth}
+\begin{minipage}[c][0.4\textheight][c]{\linewidth}
+\begin{table}
+  \caption{2017年$M_w$7.3伊朗地震}
+  \label{Tab:Iran_Parameters}
+  \scalebox{0.45}{
+  \begin{tabular}{lllll}
+  \hline\noalign{\smallskip}
+  Parameter & \textcolor[rgb]{1.00,0.00,0.00}{Boundary} & Initial Value & MaxPV & CI \\
+  \noalign{\smallskip}\hline\noalign{\smallskip}
+  $m_e$ /km &  \textcolor[rgb]{1.00,0.00,0.00}{[480,680]} & 550 & 539.42 & [528.20,554.00] \\
+  $m_n$ /km &  \textcolor[rgb]{1.00,0.00,0.00}{[3760,3960]} & 3800 & 3776.55 & [3770.00,3807.00] \\
+  $m_u$ /km &  \textcolor[rgb]{1.00,0.00,0.00}{(0,15]} & 1 & 0.20 & [0.01,3.12] \\
+  $m_s$ /$\circ$&  \textcolor[rgb]{1.00,0.00,0.00}{(270,360)} & 351 & 345.00 & [335.70,358.20] \\
+  $m_d$ /$\circ$&  \textcolor[rgb]{1.00,0.00,0.00}{(0,90)} & 16 & 13.65 & [10.71,17.61] \\
+  \noalign{\smallskip}\hline
+  \end{tabular}
+  }
+\end{table}
+\end{minipage}
+
+\end{columns}
+
+\end{frame}
+\begin{comment}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Bullet Points}
+\begin{itemize}
+\item Lorem ipsum dolor sit amet, consectetur adipiscing elit
+\item Aliquam blandit faucibus nisi, sit amet dapibus enim tempus eu
+\item Nulla commodo, erat quis gravida posuere, elit lacus lobortis est, quis porttitor odio mauris at libero
+\item Nam cursus est eget velit posuere pellentesque
+\item Vestibulum faucibus velit a augue condimentum quis convallis nulla gravida
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Blocks of Highlighted Text}
+\begin{block}{Block 1}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
+\end{block}
+
+\begin{block}{Block 2}
+Pellentesque sed tellus purus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum quis magna at risus dictum tempor eu vitae velit.
+\end{block}
+
+\begin{block}{Block 3}
+Suspendisse tincidunt sagittis gravida. Curabitur condimentum, enim sed venenatis rutrum, ipsum neque consectetur orci, sed blandit justo nisi ac lacus.
+\end{block}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Multiple Columns}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+
+\column{.45\textwidth} % Left column and width
+\textbf{Heading}
+\begin{enumerate}
+\item Statement
+\item Explanation
+\item Example
+\end{enumerate}
+
+\column{.5\textwidth} % Right column and width
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
+
+\end{columns}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Table}
+\begin{table}
+\begin{tabular}{l l l}
+\toprule
+\textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2}\\
+\midrule
+Treatment 1 & 0.0003262 & 0.562 \\
+Treatment 2 & 0.0015681 & 0.910 \\
+Treatment 3 & 0.0009271 & 0.296 \\
+\bottomrule
+\end{tabular}
+\caption{Table caption}
+\end{table}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Theorem}
+\begin{theorem}[Mass--energy equivalence]
+$E = mc^2$
+\end{theorem}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
+\frametitle{Verbatim}
+\begin{example}[Theorem Slide Code]
+\begin{verbatim}
+\begin{frame}
+\frametitle{Theorem}
+\begin{theorem}[Mass--energy equivalence]
+$E = mc^2$
+\end{theorem}
+\end{frame}\end{verbatim}
+\end{example}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Figure}
+Uncomment the code on this slide to include your own image from the same directory as the template .TeX file.
+%\begin{figure}
+%\includegraphics[width=0.8\linewidth]{test}
+%\end{figure}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
+\frametitle{Citation}
+An example of the \verb|\cite| command to cite within the presentation:\\~
+
+This statement requires citation \cite{p1}.
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{References}
+\footnotesize{
+\begin{thebibliography}{99} % Beamer does not support BibTeX so references must be inserted manually as below
+\bibitem[Smith, 2012]{p1} John Smith (2012)
+\newblock Title of the publication
+\newblock \emph{Journal Name} 12(3), 45 -- 678.
+\end{thebibliography}
+}
+\end{frame}
+\end{comment}
+
+\section{}
+\begin{frame}
+\Huge{\centerline{谢谢}}
+\end{frame}
+
+\end{document}
